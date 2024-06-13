@@ -1,0 +1,31 @@
+version: '3.4'
+
+networks:
+  shopapp:
+
+services:
+  api:
+    image: ${DOCKER_REGISTRY-}api
+    container_name: shop-app
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+    ports:
+      - 8080:8080
+      - 8081:8081
+    networks:
+      - shopapp
+  database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: shop-app-db
+    environment:
+      - MSSQL_SA_PASSWORD=Rpassw!1
+      - ACCEPT_EULA=Y
+    volumes:
+      - ./.containers/shop-app-db:/var/lib/sqlserver/data
+    ports:
+      - 1433:1433
+    depends_on:
+      - api
+    networks:
+      - shopapp
