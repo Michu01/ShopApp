@@ -1,5 +1,3 @@
-version: '3.4'
-
 networks:
   shopapp:
 
@@ -22,7 +20,9 @@ services:
       - MSSQL_SA_PASSWORD=Rpassw!1
       - ACCEPT_EULA=Y
     volumes:
-      - ./.containers/shop-app-db:/var/lib/sqlserver/data
+      - ./.containers/database/data:/var/opt/mssql/data
+      - ./.containers/database/log:/var/opt/mssql/log
+      - ./.containers/database/secrets:/var/opt/mssql/secrets
     ports:
       - 1433:1433
     depends_on:
