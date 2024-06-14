@@ -30,6 +30,7 @@ public class GetProductsQueryHandler(IApplicationDbContext dbContext, IMapper ma
         }
             
         var result = await query
+            .OrderByDescending(e => e.CreatedAt)
             .ProjectTo<Product>(mapper.ConfigurationProvider)
             .ToPaginatedResult(request.Page, request.Limit, cancellationToken);
 
